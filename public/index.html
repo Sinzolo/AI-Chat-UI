@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LM Studio Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f3f3f3;
+        }
+
+        #chat-container {
+            width: 80%;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        #chat-box {
+            height: 300px;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            overflow-y: scroll;
+        }
+
+        .message {
+            margin-bottom: 10px;
+        }
+
+        .user-message {
+            background-color: #d3e9d3;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .assistant-message {
+            background-color: #e5e5e5;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        #user-input {
+            width: calc(100% - 120px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px;
+        }
+
+        #send-button {
+            width: 100px;
+            padding: 10px;
+            border: none;
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #send-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <div style="display: flex;">
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const strongUserElement = document.createElement('strong');
+        strongUserElement.textContent = "You: ";
+        const strongAssistantElement = document.createElement('strong');
+        strongAssistantElement.textContent = "Assistant: ";
+
+        // Modify the sendMessage function to accumulate all messages in a conversation history array
+        const conversationHistory = [];
+
+        async function sendMessage() {
+            const userInputElement = document.getElementById('user-input');
+            const userInput = userInputElement.value;
+            userInputElement.value = '';
+            if (userInput.trim() === '') return;
+
+            // Add user message to conversation history
+            conversationHistory.push({ role: 'user', content: userInput });
+
+            // Displaying the user's message
+            const userMessage = document.createElement('p');
+            userMessage.classList.add('user-message');
+            userMessage.appendChild(strongUserElement.cloneNode(true));
+            userMessage.appendChild(document.createTextNode(userInput));
+            chatBox.appendChild(userMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    messages: conversationHistory, // Send entire conversation history
+                }),
+            });
+
+            const data = await response.json();
+            const assistantResponse = data.choices[0].message.content;
+
+            // Add assistant message to conversation history
+            conversationHistory.push({ role: 'assistant', content: assistantResponse });
+
+            // Displaying the assistant's message
+            const assistantMessage = document.createElement('p');
+            assistantMessage.classList.add('assistant-message');
+            assistantMessage.appendChild(strongAssistantElement.cloneNode(true));
+            assistantMessage.appendChild(document.createTextNode(assistantResponse));
+            chatBox.appendChild(assistantMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+
+        document.getElementById('send-button').addEventListener('click', sendMessage);
+
+        document.getElementById('user-input').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+
+</html>
