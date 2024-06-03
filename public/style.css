@@ -1,0 +1,162 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f3f3f3;
+}
+
+#chat-container {
+    width: 85%;
+    max-width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+#conversation-list {
+    padding: 10px;
+    margin: 10px;
+    width: 250px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#chat-box {
+    min-height: 400px;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.user-message {
+    background-color: #d3e9d3;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.assistant-message {
+    background-color: #e5e5e5;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+#user-input {
+    width: calc(100% - 120px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 10px;
+}
+
+#send-button {
+    width: 100px;
+    padding: 10px;
+    border: none;
+    background-color: #4caf50;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#send-button:hover {
+    background-color: #45a049;
+}
+
+/* Positioning for the dark mode toggle button */
+#dark-mode-toggle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#dark-mode-toggle:hover {
+    background-color: #555;
+    transform: scale(1.05);
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #cfcfcf;
+}
+
+body.dark-mode #chat-container {
+    background-color: #2c2c2c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode #conversation-list {
+    background-color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode #chat-box {
+    border-bottom: 1px solid #555;
+}
+
+body.dark-mode .user-message {
+    background-color: #3e8e41;
+}
+
+body.dark-mode .assistant-message {
+    background-color: #555;
+}
+
+body.dark-mode #user-input {
+    background-color: #444;
+    border: 1px solid #555;
+    color: #cfcfcf;
+}
+
+body.dark-mode #send-button {
+    background-color: #3e8e41;
+}
+
+body.dark-mode #send-button:hover {
+    background-color: #45a049;
+}
+
+body.dark-mode #dark-mode-toggle {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+body.dark-mode #dark-mode-toggle:hover {
+    background-color: #45a049;
+}
+
+/* Dark mode styles for the select element */
+body.dark-mode select {
+    background-color: #444;
+    color: #cfcfcf;
+    border: 1px solid #555;
+    border-radius: 4px;
+}
+
+body.dark-mode option {
+    background-color: #444;
+    color: #cfcfcf;
+}
